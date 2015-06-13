@@ -67,21 +67,8 @@ LRUCache.prototype.put = function(key, value) {
  *   }
  */
 LRUCache.prototype.shift = function() {
-  // todo: handle special case when limit == 1
   var entry = this.head;
-  if (entry) {
-    if (this.head.newer) {
-      this.head = this.head.newer;
-      this.head.older = undefined;
-    } else {
-      this.head = undefined;
-    }
-    // Remove last strong reference to <entry> and remove links from the purged
-    // entry being returned:
-    entry.newer = entry.older = undefined;
-    // delete is slow, but we need to do this to avoid uncontrollable growth:
-    delete this._keymap[entry.key];
-  }
+  if (entry) this.remove(entry.key);
   return entry;
 };
 
